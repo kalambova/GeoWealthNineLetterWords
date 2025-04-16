@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 
 public class Main {
     private static Set<String> allEnglishWordsDictionary = new HashSet<>();
-    private static final List<String> results = new ArrayList<>();
 
     private static Set<String> loadAllWordsSet() throws IOException {
 
@@ -42,10 +41,12 @@ public class Main {
         allEnglishWordsDictionary.add("A");
         allEnglishWordsDictionary.add("I");
 
-        Set<String> allNineLettersWords = loadAllWordsSet().stream()
+        Set<String> allNineLettersWords = allEnglishWordsDictionary.stream()
                 .filter(s -> s.length() == 9)
                 .filter(s -> s.contains("A") || s.contains("I"))
                 .collect(Collectors.toSet());
+
+        final Set<String> results = new HashSet<>();
 
         long start = System.currentTimeMillis();
 
