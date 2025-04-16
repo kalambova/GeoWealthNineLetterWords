@@ -46,12 +46,10 @@ public class Main {
                 .filter(s -> s.length() == 9)
                 .filter(s -> s.contains("A") || s.contains("I"))
                 .collect(Collectors.toSet());
-        System.out.println("Count of All 9 letter words:" + allNineLettersWords.size());
 
         long start = System.currentTimeMillis();
 
         for (String word : allNineLettersWords) {
-
             if (canReduce(word)) {
                 results.add(word);
             }
@@ -59,9 +57,9 @@ public class Main {
 
         long finish = System.currentTimeMillis();
         long timeElapsed = finish - start;
-        System.out.printf("Time elapsed: %d milliseconds\n", timeElapsed);
+        System.out.printf("Time elapsed: %d milliseconds\n", timeElapsed); // 329 milliseconds
 
-        System.out.printf("Count of all reducible 9 letter words: %d\n", results.size());
+        System.out.printf("Count of all reducible 9 letter words: %d\n", results.size()); // 775
         System.out.printf("All reducible 9 letter words: %s\n", results);
 
     }
