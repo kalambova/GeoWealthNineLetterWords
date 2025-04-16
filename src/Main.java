@@ -2,14 +2,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Main {
     private static Set<String> allEnglishWordsDictionary = new HashSet<>();
+    private static Map<String, Boolean> memo = new HashMap<>();
+
 
     private static Set<String> loadAllWordsSet() throws IOException {
 
@@ -22,16 +21,24 @@ public class Main {
     }
 
     private static boolean canReduce(String word) {
+        if (memo.containsKey(word)) {
+            return memo.get(word);
+        }
+
         if (word.length() == 1) {
-            return word.equals("A") || word.equals("I");
+            boolean isBase = word.equals("A") || word.equals("I");
+            memo.put(word, isBase);
+            return isBase;
         }
 
         for (int i = 0; i < word.length(); i++) {
             String reduced = word.substring(0, i) + word.substring(i + 1);
             if (allEnglishWordsDictionary.contains(reduced) && canReduce(reduced)) {
+                memo.put(word, true);
                 return true;
             }
         }
+        memo.put(word, false);
         return false;
     }
 
@@ -58,7 +65,7 @@ public class Main {
 
         long finish = System.currentTimeMillis();
         long timeElapsed = finish - start;
-        System.out.printf("Time elapsed: %d milliseconds\n", timeElapsed); // 329 milliseconds
+        System.out.printf("Time elapsed: %d milliseconds\n", timeElapsed); // 412 milliseconds
 
         System.out.printf("Count of all reducible 9 letter words: %d\n", results.size()); // 775
         System.out.printf("All reducible 9 letter words: %s\n", results);
