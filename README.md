@@ -19,6 +19,8 @@ II. Задачата трябва да е оптимизирана за скор
 https://raw.githubusercontent.com/nikiiv/JavaCodingTestOne/master/scrabble-words.txt
 III. Желателно е решението да НЕ чете локален файл, а да зареди като URL, примерно по следния
 начин:
+
+
    private static Set<String> loadAllWordsSet() throws IOException {
 
         URL wordsURL = new URL("https://raw.githubusercontent.com/nikiiv/JavaCodingTestOne/master/scrabble-words.txt");
