@@ -7,8 +7,18 @@ import java.util.stream.Collectors;
 
 public class Main {
     private static Set<String> allEnglishWordsDictionary = new HashSet<>();
+    private static Map<Integer, Set<String>> wordsByLength = new HashMap<>();
     private static Map<String, Boolean> memo = new HashMap<>();
 
+
+    private static void groupWordsByLength() {
+        for (String word : allEnglishWordsDictionary) {
+            int len = word.length();
+            wordsByLength
+                    .computeIfAbsent(len, k -> new HashSet<>())
+                    .add(word);
+        }
+    }
 
     private static Set<String> loadAllWordsSet() throws IOException {
 
@@ -31,9 +41,13 @@ public class Main {
             return isBase;
         }
 
+
+        int nextLen = word.length() - 1;
+        Set<String> shorterWords = wordsByLength.getOrDefault(nextLen, Set.of());
+
         for (int i = 0; i < word.length(); i++) {
             String reduced = word.substring(0, i) + word.substring(i + 1);
-            if (allEnglishWordsDictionary.contains(reduced) && canReduce(reduced)) {
+            if (shorterWords.contains(reduced) && canReduce(reduced)) {
                 memo.put(word, true);
                 return true;
             }
@@ -48,6 +62,8 @@ public class Main {
         allEnglishWordsDictionary.add("A");
         allEnglishWordsDictionary.add("I");
 
+        groupWordsByLength();
+        
         Set<String> allNineLettersWords = allEnglishWordsDictionary.stream()
                 .filter(s -> s.length() == 9)
                 .filter(s -> s.contains("A") || s.contains("I"))
