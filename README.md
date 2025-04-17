@@ -17,3 +17,14 @@ II. Задачата трябва да е оптимизирана за скор
 други букви.
 Списък с всички думи в английския език може да сe ползва от тук:
 https://raw.githubusercontent.com/nikiiv/JavaCodingTestOne/master/scrabble-words.txt
+III. Желателно е решението да НЕ чете локален файл, а да зареди като URL, примерно по следния
+начин:
+   private static Set<String> loadAllWordsSet() throws IOException {
+
+        URL wordsURL = new URL("https://raw.githubusercontent.com/nikiiv/JavaCodingTestOne/master/scrabble-words.txt");
+        try (BufferedReader br = new BufferedReader(new
+                InputStreamReader(wordsURL.openConnection().getInputStream()))) {
+            return br.lines().skip(2).collect(Collectors.toSet());
+
+        }
+    }
